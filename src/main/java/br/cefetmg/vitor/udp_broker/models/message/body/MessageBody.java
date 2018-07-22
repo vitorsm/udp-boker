@@ -1,4 +1,4 @@
-package br.cefetmg.vitor.udp_broker.models;
+package br.cefetmg.vitor.udp_broker.models.message.body;
 
 import br.cefetmg.vitor.udp_broker.Constants;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class MessageBody {
 		if (payload != null) {
 			byte[] payloadBytes = payload;
 
-			for (int i = 0; i < bytes.length; i++) {
+			for (int i = 0; i < bytes.length && i < payloadBytes.length; i++) {
 				bytes[i] = payloadBytes[i];
 			}
 		}

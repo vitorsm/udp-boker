@@ -25,6 +25,10 @@ public class ClientSubscription {
 	
 	public static ClientSubscription getClientSubscriptionByClient(Client client, List<ClientSubscription> clientsSubscription) {
 		
+		if (clientsSubscription == null) {
+			return null;
+		}
+		
 		for (ClientSubscription cs : clientsSubscription) {
 			if (cs.getClient().equals(client)) {
 				return cs;

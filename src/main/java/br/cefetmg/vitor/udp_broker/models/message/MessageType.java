@@ -1,8 +1,8 @@
-package br.cefetmg.vitor.udp_broker.models;
+package br.cefetmg.vitor.udp_broker.models.message;
 
 public enum MessageType {
 	
-	PUBLISH(1), SUBSCRIBE(2), KEEP_ALIVE(3), UPDATE_PARAM(4), DATA(5);
+	PUBLISH(1), SUBSCRIBE(2), KEEP_ALIVE(3), UPDATE_PARAM(4), DATA(5), HELLO(6);
 	
 	private final int value;
 	
@@ -26,6 +26,8 @@ public enum MessageType {
 			return UPDATE_PARAM;
 		} else if (value == DATA.value) {
 			return DATA;
+		} else if (value == HELLO.value) {
+			return HELLO;
 		} else {
 			return null;
 		}

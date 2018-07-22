@@ -11,7 +11,7 @@ public class Topic {
 	public boolean equals(Object obj) {
 		
 		if (obj instanceof Topic) {
-			return this.value != null && this.value == ((Topic) obj).value;
+			return this.value != null && this.value.equals(((Topic) obj).value);
 		}
 		
 		return false;

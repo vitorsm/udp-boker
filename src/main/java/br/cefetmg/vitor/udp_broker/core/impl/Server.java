@@ -1,4 +1,4 @@
-package br.cefetmg.vitor.udp_broker.core;
+package br.cefetmg.vitor.udp_broker.core.impl;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import br.cefetmg.vitor.udp_broker.Constants;
+import br.cefetmg.vitor.udp_broker.core.IBroker;
 
 public class Server {
 

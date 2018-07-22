@@ -1,5 +1,7 @@
-package br.cefetmg.vitor.udp_broker.models;
+package br.cefetmg.vitor.udp_broker.models.message.body;
 
+import br.cefetmg.vitor.udp_broker.models.Topic;
+import br.cefetmg.vitor.udp_broker.utils.MessageUtils;
 import lombok.Data;
 
 @Data
@@ -15,10 +17,8 @@ public class MessageBodySubscribe extends MessageBody {
 
 	private void instanceTopic() {
 
-		String message = new String(this.getBytes());
-
 		topic = new Topic();
-		topic.setValue(message);
+		topic.setValue(MessageUtils.convertBytesToString(this.getBytes()));
 
 	}
 }

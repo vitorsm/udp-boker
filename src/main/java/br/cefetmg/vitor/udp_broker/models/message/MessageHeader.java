@@ -1,4 +1,4 @@
-package br.cefetmg.vitor.udp_broker.models;
+package br.cefetmg.vitor.udp_broker.models.message;
 
 import br.cefetmg.vitor.udp_broker.Constants;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class MessageHeader {
 		bytes[0] = (byte) messageType.getValue();
 		if (accessToken != null) {
 			byte[] tokenStr = accessToken.getBytes();
-			for (int i = 0; i < bytes.length - 1; i++) {
+			for (int i = 0; i < bytes.length - 1 && i < tokenStr.length; i++) {
 				bytes[i + 1] = tokenStr[i];
 			}
 		}

@@ -4,12 +4,19 @@ import java.net.DatagramPacket;
 import java.util.List;
 
 import br.cefetmg.vitor.udp_broker.models.Client;
-import br.cefetmg.vitor.udp_broker.models.Message;
 import br.cefetmg.vitor.udp_broker.models.Topic;
+import br.cefetmg.vitor.udp_broker.models.message.Message;
 
 public interface IBroker {
 
-	public String getAccessToken();
+	public ISecurity getSecurity();
+	public IJoinning getJoinning();
+	
+	public List<Client> getClients();
+	public void removeClient(Client client);
+	
+	public void setKeepAlive(Client client);
+	
 	public void receiveMessage(DatagramPacket packet);
 	public void sendMessage(Message message, List<Client> clients);
 	

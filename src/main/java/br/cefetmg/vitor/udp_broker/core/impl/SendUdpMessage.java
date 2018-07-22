@@ -1,4 +1,4 @@
-package br.cefetmg.vitor.udp_broker.core;
+package br.cefetmg.vitor.udp_broker.core.impl;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -7,8 +7,8 @@ import java.util.List;
 
 import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.models.Client;
-import br.cefetmg.vitor.udp_broker.models.Message;
 import br.cefetmg.vitor.udp_broker.models.SendingStatus;
+import br.cefetmg.vitor.udp_broker.models.message.Message;
 
 public class SendUdpMessage implements Runnable {
 
