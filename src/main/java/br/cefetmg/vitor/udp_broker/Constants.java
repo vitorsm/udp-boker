@@ -17,7 +17,11 @@ public class Constants {
 	 */
 	public final static int MESSAGE_TYPE_LENGTH = 1;
 	public final static int MESSAGE_TOKEN_LENGTH = 20;
-	public final static int MESSAGE_BODY_LENGH = 20;
-	public final static int MESSAGE_LENGTH = MESSAGE_TYPE_LENGTH + MESSAGE_TOKEN_LENGTH + MESSAGE_BODY_LENGH;
+	public final static int MESSAGE_BODY_LENGTH = 20;
+	public final static int MESSAGE_TOPIC_LENGTH = 10;
+	public final static int MESSAGE_VALUE_LENGTH = MESSAGE_BODY_LENGTH - MESSAGE_TOPIC_LENGTH;
+	public final static int MESSAGE_LENGTH = MESSAGE_TYPE_LENGTH + MESSAGE_TOKEN_LENGTH + MESSAGE_BODY_LENGTH;
 	
+	
+	public final static int MAXIMUM_ATTEMPTS = 5;
 }

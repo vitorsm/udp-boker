@@ -9,6 +9,7 @@ import br.cefetmg.vitor.udp_broker.models.Topic;
 
 public interface IBroker {
 
+	public String getAccessToken();
 	public void receiveMessage(DatagramPacket packet);
 	public void sendMessage(Message message, List<Client> clients);
 	

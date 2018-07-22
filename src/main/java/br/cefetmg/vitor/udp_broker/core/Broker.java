@@ -12,25 +12,35 @@ import br.cefetmg.vitor.udp_broker.models.Topic;
 public class Broker implements IBroker {
 
 	private List<ClientSubscription> clientsSubscription;
-	private ISendMessage sendMessage;
+	private String accessToken;
 	
-	
-	public void receiveMessage(DatagramPacket packet) {
-		
+	public Broker(String accessToken) {
+		this.accessToken = accessToken;
 	}
 	
+	@Override
+	public void receiveMessage(DatagramPacket packet) {
+		ReceiveUdpMessage receiveMessage = new ReceiveUdpMessage(this, packet);
+		
+		Thread thread = new Thread(receiveMessage);
+		thread.start();
+	}
+	
+	@Override
 	public void sendMessage(Message message, List<Client> clients) {
-		ISendMessage sendMessage = new SendUdpMessage(message, clients);
+		SendUdpMessage sendMessage = new SendUdpMessage(message, clients);
 		
 		Thread thread = new Thread(sendMessage);
 		thread.start();
 	}
 	
+	@Override
 	public void sendMessageByTopics(Message message, Topic topic) {
 		
 		sendMessage(message, getClientsByTopic(topic));
 	}
 	
+	@Override
 	public void addClientIntoTopic(Client client, Topic topic) {
 		
 		ClientSubscription clientSubscription = ClientSubscription.
@@ -41,6 +51,11 @@ public class Broker implements IBroker {
 		}
 		
 		clientSubscription.addTopic(topic);
+	}
+	
+	@Override
+	public String getAccessToken() {
+		return this.accessToken;
 	}
 	
 	private List<Client> getClientsByTopic(Topic topic) {

@@ -2,7 +2,7 @@ package br.cefetmg.vitor.udp_broker.models;
 
 public enum MessageType {
 	
-	PUBLISH(1), SUBSCRIBE(2), KEEP_ALIVE(3), UPDATE_PARAM(4);
+	PUBLISH(1), SUBSCRIBE(2), KEEP_ALIVE(3), UPDATE_PARAM(4), DATA(5);
 	
 	private final int value;
 	
@@ -24,6 +24,8 @@ public enum MessageType {
 			return KEEP_ALIVE;
 		} else if (value == UPDATE_PARAM.value) {
 			return UPDATE_PARAM;
+		} else if (value == DATA.value) {
+			return DATA;
 		} else {
 			return null;
 		}

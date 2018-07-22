@@ -5,15 +5,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.List;
 
+import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.models.Client;
 import br.cefetmg.vitor.udp_broker.models.Message;
 import br.cefetmg.vitor.udp_broker.models.SendingStatus;
 
-public class SendUdpMessage implements ISendMessage {
+public class SendUdpMessage implements Runnable {
 
 	private Message message;
 	private List<Client> clients;
-	private SendingStatus sendingStatus;
+	private int numberAttempts;
 	
 	public SendUdpMessage(Message message, List<Client> clients) {
 		this.message = message;
@@ -25,17 +26,13 @@ public class SendUdpMessage implements ISendMessage {
 		
 		try {
 			sendMessage(message, clients);
-			sendingStatus = new SendingStatus(SendingStatus.SUCCESS);
 		} catch (IOException e) {
-			e.printStackTrace();
-			sendingStatus = new SendingStatus(SendingStatus.ERROR, e.getMessage());
+			numberAttempts++;
+			if (numberAttempts <= Constants.MAXIMUM_ATTEMPTS) {
+				this.run();
+			}
 		}
 		
-	}
-
-	@Override
-	public SendingStatus getSendingStatus() {
-		return sendingStatus;
 	}
 	
 	private void sendMessage(Message message, List<Client> clients) throws IOException {

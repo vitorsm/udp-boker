@@ -13,9 +13,9 @@ public class Server {
 	private boolean running;
 	private byte[] buffer;
 	
-	private Broker broker;
+	private IBroker broker;
 	
-	public Server(Broker broker) throws SocketException {
+	public Server(IBroker broker) throws SocketException {
 		this.broker = broker;
 		
 		socket = new DatagramSocket(Constants.SERVER_PORT);
@@ -31,13 +31,12 @@ public class Server {
 				DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 				socket.receive(packet);
 				
-				
+				broker.receiveMessage(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
 	}
-	
-	
+
 }
