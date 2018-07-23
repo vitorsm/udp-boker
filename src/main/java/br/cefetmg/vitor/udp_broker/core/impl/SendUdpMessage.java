@@ -27,6 +27,7 @@ public class SendUdpMessage implements Runnable {
 		try {
 			sendMessage(message, clients);
 		} catch (IOException e) {
+			e.printStackTrace();
 			numberAttempts++;
 			if (numberAttempts <= Constants.MAXIMUM_ATTEMPTS) {
 				this.run();
@@ -52,6 +53,7 @@ public class SendUdpMessage implements Runnable {
 		DatagramSocket socket = new DatagramSocket();
 		DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, client.getAddress(), client.getPort());
 		
+		System.out.println(client.getAddress().toString());
 		socket.send(packet);
 	}
 }

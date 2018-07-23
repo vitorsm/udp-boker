@@ -106,6 +106,25 @@ public class Broker implements IBroker {
 			clientsSubscription.remove(clientSubscription);
 	}
 	
+	@Override
+	public void sendParamMessage(Client client, Message message) {
+		if (client == null || message == null)
+			return;
+		
+		List<Client> clients = new ArrayList<Client>();
+		clients.add(client);
+		
+		SendUdpMessage sendUdpMessage = new SendUdpMessage(message, clients);
+		
+		Thread thread = new Thread(sendUdpMessage);
+		thread.start();
+	}
+	
+	@Override
+	public void setJoinning(IJoinning joinning) {
+		this.joinning = joinning;
+	}
+	
 	private List<Client> getClientsByTopic(Topic topic) {
 
 		if (clientsSubscription == null)

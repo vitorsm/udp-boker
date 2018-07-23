@@ -4,7 +4,9 @@ import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.core.impl.Credentials;
 import br.cefetmg.vitor.udp_broker.utils.MessageUtils;
 import br.cefetmg.vitor.udp_broker.utils.VectorUtils;
+import lombok.Data;
 
+@Data
 public class MessageBodyHello extends MessageBody {
 
 	private Credentials credentials;
@@ -28,7 +30,7 @@ public class MessageBodyHello extends MessageBody {
 			}
 			
 			for (int i = Constants.CLIENT_ID_LENGTH; i < Constants.MESSAGE_BODY_LENGTH && i - Constants.CLIENT_ID_LENGTH < bytesPassword.length; i++) {
-				bytesPayload[i] = bytesPassword[i];
+				bytesPayload[i] = bytesPassword[i - Constants.CLIENT_ID_LENGTH];
 			}
 			
 			this.setPayload(bytesPayload);

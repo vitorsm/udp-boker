@@ -12,6 +12,8 @@ public interface IBroker {
 	public ISecurity getSecurity();
 	public IJoinning getJoinning();
 	
+	public void setJoinning(IJoinning joinning);
+	
 	public List<Client> getClients();
 	public void removeClient(Client client);
 	
@@ -22,5 +24,7 @@ public interface IBroker {
 	
 	public void sendMessageByTopics(Message message, Topic topic);
 	public void addClientIntoTopic(Client client, Topic topic);
+	
+	public void sendParamMessage(Client client, Message message);
 	
 }
