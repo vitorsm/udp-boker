@@ -102,8 +102,8 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 				&& !broker.getSecurity().hasPublishPermission(message.getMessageHeader().getAccessToken(), topicSend))
 			return;
 
-		MessageBody messageBody = new MessageBody();
-		messageBody.setPayload(messageContentSend.getBytes());
+//		MessageBody messageBody = new MessageBody();
+//		messageBody.setPayload(messageContentSend.getBytes());
 
 		MessageHeader messageHeader = new MessageHeader();
 		messageHeader.setMessageType(MessageType.DATA);
@@ -114,7 +114,7 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 		Message messageSend = new Message();
 		messageSend.setMessageHeader(messageHeader);
-		messageSend.setMessageBody(messageBody);
+		messageSend.setMessageBody(messagePublish);
 
 		broker.sendMessageByTopics(messageSend, topicSend);
 	}

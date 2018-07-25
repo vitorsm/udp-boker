@@ -32,7 +32,7 @@ public class MessageUtils {
 		byte[] accessToken = VectorUtils.subvector(bytes, Constants.MESSAGE_TYPE_LENGTH,
 				Constants.MESSAGE_TYPE_LENGTH + Constants.MESSAGE_TOKEN_LENGTH);
 	
-		return new String(accessToken);
+		return convertBytesToString(accessToken);
 	}
 	
 	public static Message convertToMessage(byte[] bytes) {
@@ -46,7 +46,7 @@ public class MessageUtils {
 		
 		MessageHeader messageHeader = new MessageHeader();
 		messageHeader.setMessageType(MessageType.toMessageType((int) typeByte));
-		messageHeader.setAccessToken(new String(accessToken));
+		messageHeader.setAccessToken(convertBytesToString(accessToken));
 		
 		MessageBody messageBody = new MessageBody();
 		messageBody.setPayload(messageBodyBytes);
