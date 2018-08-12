@@ -26,7 +26,8 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 	@Override
 	public void proccessMessage(DatagramPacket packet) {
-
+		System.out.println("recebeu um msg");
+		System.out.println(new String(packet.getData()));
 		Message message = MessageUtils.convertToMessage(packet.getData());
 
 		if (message.getMessageHeader().getMessageType() == MessageType.PUBLISH) {

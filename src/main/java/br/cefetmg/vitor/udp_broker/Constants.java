@@ -3,6 +3,7 @@ package br.cefetmg.vitor.udp_broker;
 public class Constants {
 
 	
+	public final static int EMPTY_CHAR = 127;
 	/***
 	 * Server constants
 	 */

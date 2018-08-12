@@ -4,6 +4,7 @@ import br.cefetmg.vitor.udp_broker.models.message.body.MessageBody;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodyHello;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodyPublish;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodySubscribe;
+import br.cefetmg.vitor.udp_broker.utils.MessageUtils;
 import br.cefetmg.vitor.udp_broker.utils.VectorUtils;
 import lombok.Data;
 
@@ -16,7 +17,9 @@ public class Message {
 	public byte[] getBytes() {
 
 		byte[] bytes = VectorUtils.concactByteVector(messageHeader.getBytes(), messageBody.getBytes());
-
+		
+		MessageUtils.addEmptyChar(bytes);
+		
 		return bytes;
 	}
 

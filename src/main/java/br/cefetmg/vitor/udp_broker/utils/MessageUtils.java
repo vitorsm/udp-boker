@@ -20,7 +20,7 @@ public class MessageUtils {
 		
 		for (int i = 0; i < str.length(); i++) {
 			char c = str.charAt(i);
-			if (c != 0)
+			if (c != 0 && c != Constants.EMPTY_CHAR)
 				strReturn += c;
 		}
 		
@@ -44,6 +44,8 @@ public class MessageUtils {
 				Constants.MESSAGE_TYPE_LENGTH + Constants.MESSAGE_TOKEN_LENGTH,
 				Constants.MESSAGE_LENGTH);
 		
+		removeEmptyChar(messageBodyBytes);
+		
 		MessageHeader messageHeader = new MessageHeader();
 		messageHeader.setMessageType(MessageType.toMessageType((int) typeByte));
 		messageHeader.setAccessToken(convertBytesToString(accessToken));
@@ -56,5 +58,21 @@ public class MessageUtils {
 		message.setMessageBody(messageBody);
 		
 		return message;
+	}
+	
+	public static void removeEmptyChar(byte[] bytes) {
+		
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] == Constants.EMPTY_CHAR)
+				bytes[i] = 0;
+		}
+	}
+	
+	public static void addEmptyChar(byte[] bytes) {
+		
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] == 0)
+				bytes[i] = Constants.EMPTY_CHAR;
+		}
 	}
 }
