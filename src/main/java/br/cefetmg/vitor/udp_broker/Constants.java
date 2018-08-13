@@ -9,6 +9,7 @@ public class Constants {
 	 */
 	
 	public final static int SERVER_PORT = 4410;
+	public final static int SERVER_PORT_SEND = 4409;
 	
 	/***
 	 * Server constants

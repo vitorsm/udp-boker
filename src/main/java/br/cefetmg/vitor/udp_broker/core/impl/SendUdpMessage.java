@@ -50,6 +50,7 @@ public class SendUdpMessage implements Runnable {
 		
 		byte[] messageBytes = message.getBytes();
 		
+//		DatagramSocket socket = new DatagramSocket(Constants.SERVER_PORT_SEND);
 		DatagramSocket socket = new DatagramSocket();
 		DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, client.getAddress(), client.getPort());
 		

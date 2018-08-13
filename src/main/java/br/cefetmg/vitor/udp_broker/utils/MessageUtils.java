@@ -47,7 +47,7 @@ public class MessageUtils {
 		removeEmptyChar(messageBodyBytes);
 		
 		MessageHeader messageHeader = new MessageHeader();
-		messageHeader.setMessageType(MessageType.toMessageType((int) typeByte));
+		messageHeader.setMessageType(MessageType.toMessageType((int) typeByte - '0'));
 		messageHeader.setAccessToken(convertBytesToString(accessToken));
 		
 		MessageBody messageBody = new MessageBody();
