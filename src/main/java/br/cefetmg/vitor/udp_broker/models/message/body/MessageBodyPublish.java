@@ -1,7 +1,5 @@
 package br.cefetmg.vitor.udp_broker.models.message.body;
 
-import java.nio.charset.Charset;
-
 import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.models.Topic;
 import br.cefetmg.vitor.udp_broker.utils.MessageUtils;

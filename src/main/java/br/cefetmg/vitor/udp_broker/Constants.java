@@ -38,6 +38,8 @@ public class Constants {
 	
 	public final static int MESSAGE_LENGTH = MESSAGE_HEADER_LENGTH + MESSAGE_BODY_LENGTH;
 	
+	public final static int MESSAGE_ERROR_NAME_LENGTH = 10;
+	public final static int MESSAGE_ERROR_DETAILS_LENGTH = MESSAGE_BODY_LENGTH - MESSAGE_ERROR_NAME_LENGTH; 
 	
 	public final static int MAXIMUM_ATTEMPTS = 5;
 }
