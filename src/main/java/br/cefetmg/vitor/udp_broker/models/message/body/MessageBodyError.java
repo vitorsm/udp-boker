@@ -49,7 +49,6 @@ public class MessageBodyError extends MessageBody {
 	}
 	
 	private void instanceName() {
-		
 		byte[] nameBytes = VectorUtils.subvector(this.getPayload(), 0, Constants.MESSAGE_ERROR_NAME_LENGTH);
 		
 		name = MessageUtils.convertBytesToString(nameBytes);

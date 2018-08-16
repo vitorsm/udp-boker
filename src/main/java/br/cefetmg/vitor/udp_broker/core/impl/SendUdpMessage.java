@@ -3,6 +3,7 @@ package br.cefetmg.vitor.udp_broker.core.impl;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Collection;
 import java.util.List;
 
 import br.cefetmg.vitor.udp_broker.Constants;
@@ -19,6 +20,7 @@ public class SendUdpMessage implements Runnable {
 	public SendUdpMessage(Message message, List<Client> clients) {
 		this.message = message;
 		this.clients = clients;
+		Collection<Integer> test;
 	}
 	
 	@Override
