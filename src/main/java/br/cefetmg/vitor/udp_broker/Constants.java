@@ -16,6 +16,7 @@ public class Constants {
 	 */
 	
 	public final static int CLIENT_PORT = 4411;
+//	public final static int CLIENT_PORT = 4421;
 	
 	
 	public final static int CLIENT_ID_LENGTH = 10;
