@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.logging.Logger;
 
 import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.core.IBroker;
@@ -16,6 +17,8 @@ public class Server {
 	
 	private IBroker broker;
 	
+	private static final Logger LOGGER = Logger.getLogger(Server.class.toString());
+	
 	public Server(IBroker broker) throws SocketException {
 		this.broker = broker;
 		
@@ -27,6 +30,7 @@ public class Server {
 
 	public void run() {
 		
+		LOGGER.info("BROKER RODANDO");
 		while (running) {
 			try {
 				DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -37,6 +41,7 @@ public class Server {
 				e.printStackTrace();
 			}
 		}
+		LOGGER.info("BROKER PARADO");
 		
 	}
 

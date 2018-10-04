@@ -23,6 +23,10 @@ public class Broker implements IBroker {
 		this.joinning = joinning;
 		this.clientsSubscription = new ArrayList<ClientSubscription>();
 	}
+	
+	public void setSecurity(ISecurity security) {
+		this.security = security;
+	}
 
 	@Override
 	public ISecurity getSecurity() {

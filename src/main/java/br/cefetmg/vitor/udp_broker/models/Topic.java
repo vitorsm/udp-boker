@@ -6,6 +6,16 @@ import lombok.Data;
 public class Topic {
 
 	private String value;
+
+	
+	public Topic() {
+		
+	}
+	
+	public Topic(String value) {
+		this.value = value;
+	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {
