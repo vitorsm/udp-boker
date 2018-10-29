@@ -43,4 +43,9 @@ public class Constants {
 	public final static int MESSAGE_ERROR_DETAILS_LENGTH = MESSAGE_BODY_LENGTH - MESSAGE_ERROR_NAME_LENGTH; 
 	
 	public final static int MAXIMUM_ATTEMPTS = 5;
+	
+	public final static int MESSAGE_K_LENGTH = 5;
+	public final static int MESSAGE_SAMPLE_LENGTH = 6;
+	public final static int MESSAGE_INPUT_ID_LENGTH = 3;
+	public final static int MESSAGE_VALUE_LENGTH = 8;
 }

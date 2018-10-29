@@ -30,7 +30,7 @@ public class JoinningTest implements IJoinning {
 		
 		messageHeader.setMessageType(MessageType.UPDATE_PARAM);
 		
-		MessageBodyUpdateParam messageBody = new MessageBodyUpdateParam();
+		MessageBodyUpdateParam messageBody = new MessageBodyUpdateParam(1);
 		messageBody.setParams("ParametrosTeste");
 		
 		Message message = new Message();

@@ -17,7 +17,7 @@ import br.cefetmg.vitor.udp_broker.models.Topic;
  *
  */
 public class App {
-	public static void main(String[] args) throws IOException, InvalidAddressException {
+	public static void main(String[] args) throws InvalidAddressException {
 		
 		IBroker broker = new Broker(null, null);
 		IJoinning joinning = new JoinningTest(broker);
@@ -26,7 +26,7 @@ public class App {
 		try {
 			Server server = new Server(broker);
 			server.run();
-		} catch (SocketException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

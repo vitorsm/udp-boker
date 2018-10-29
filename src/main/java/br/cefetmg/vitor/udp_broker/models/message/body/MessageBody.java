@@ -7,9 +7,12 @@ import lombok.Data;
 public class MessageBody {
 
 	private byte[] payload;
+	protected int messageBodyLength;
 
 	public byte[] getBytes() {
-		byte[] bytes = new byte[Constants.MESSAGE_BODY_LENGTH];
+		int length = messageBodyLength > 0 ? messageBodyLength : Constants.MESSAGE_BODY_LENGTH;
+		
+		byte[] bytes = new byte[length];
 
 		if (payload != null) {
 			byte[] payloadBytes = payload;

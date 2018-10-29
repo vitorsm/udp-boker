@@ -11,7 +11,6 @@ import lombok.Data;
 public class Client {
 
 	private String id;
-//	private String address;
 	private InetAddress address;
 	private int port;
 	private long lastTimeAnswer;
@@ -19,6 +18,7 @@ public class Client {
 	public Client() {
 		port = Constants.CLIENT_PORT;
 	}
+	
 	public void setAddress(InetAddress address) {
 		this.address = address;
 	}

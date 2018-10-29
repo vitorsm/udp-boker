@@ -1,12 +1,31 @@
 package br.cefetmg.vitor.udp_broker.models.message.body;
 
+
 import br.cefetmg.vitor.udp_broker.Constants;
+import br.cefetmg.vitor.udp_broker.models.Condition;
+import br.cefetmg.vitor.udp_broker.models.PinType;
 import br.cefetmg.vitor.udp_broker.utils.MessageUtils;
+import br.cefetmg.vitor.udp_broker.utils.VectorUtils;
 import lombok.Data;
 
 @Data
 public class MessageBodyUpdateParam extends MessageBody {
 
+	private String token;
+	private int[] ids;
+	private PinType[] pinTypes;
+	private float[] kps;
+	private float[] kis;
+	private float[] kds;
+	private int[] sampleTimes;
+	private float[] setpoints;
+	private Condition[] conditions;
+	private int pinsAmount;
+	
+	public MessageBodyUpdateParam(int pinsAmount) {
+		this.pinsAmount = pinsAmount;
+	}
+	
 	private String params;
 	
 	public String getParams() {
@@ -19,22 +38,148 @@ public class MessageBodyUpdateParam extends MessageBody {
 	@Override
 	public byte[] getBytes() {
 		
-		byte[] bytesPayload = new byte[Constants.MESSAGE_BODY_LENGTH];
+		byte[] bytes = getBytesIds();
+		bytes = VectorUtils.concactByteVector(bytes, getBytesPinTypes());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesKps());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesKis());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesKds());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesSampleTimes());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesSetpoints());
+		bytes = concatConditions(bytes);
 		
-		if (params != null) {
-			
-			byte[] bytesParams = params.getBytes();
-			
-			for (int i = 0; i < Constants.MESSAGE_BODY_LENGTH && i < bytesParams.length; i++) {
-				bytesPayload[i] = bytesParams[i];
-			}
-			
-			this.setPayload(bytesPayload);
-		}
-		
-		return super.getBytes();
+		return bytes;
 	}
 	
+	private byte[] concatConditions(byte[] bytes) {
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			if (conditions[i] == null) {
+				bytes = VectorUtils.concactByteVector(bytes, Condition.getVoidCondition());
+			} else {
+				bytes = VectorUtils.concactByteVector(bytes, conditions[i].getBytes());
+			}
+		}
+		
+		return bytes;
+	}
+	
+	private byte[] getBytesSetpoints() {
+		byte[] bytesSetpoints = new byte[pinsAmount * Constants.MESSAGE_VALUE_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strSetpoint = setpoints[i] + "";
+			
+			while (strSetpoint.length() < Constants.MESSAGE_VALUE_LENGTH) {
+				strSetpoint = "0" + strSetpoint;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_VALUE_LENGTH; j++) {
+				bytesSetpoints[i * Constants.MESSAGE_VALUE_LENGTH + j] = (byte) strSetpoint.charAt(j);
+			}
+		}
+		
+		return bytesSetpoints;
+	}
+	
+	private byte[] getBytesSampleTimes() {
+		byte[] bytesSampleTimes = new byte[pinsAmount * Constants.MESSAGE_SAMPLE_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strSampleTime = sampleTimes[i] + "";
+			
+			while (strSampleTime.length() < Constants.MESSAGE_SAMPLE_LENGTH) {
+				strSampleTime = "0" + strSampleTime;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_SAMPLE_LENGTH; j++) {
+				bytesSampleTimes[i * Constants.MESSAGE_SAMPLE_LENGTH + j] = (byte) strSampleTime.charAt(j);
+			}
+		}
+		
+		return bytesSampleTimes;
+	}
+	
+	private byte[] getBytesKds() {
+		byte[] bytesKds = new byte[pinsAmount * Constants.MESSAGE_K_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strKd = kds[i] + "";
+			
+			while (strKd.length() < Constants.MESSAGE_K_LENGTH) {
+				strKd = "0" + strKd;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_K_LENGTH; j++) {
+				bytesKds[i * Constants.MESSAGE_K_LENGTH + j] = (byte) strKd.charAt(j);
+			}
+		}
+		
+		return bytesKds;
+	}
+	
+	private byte[] getBytesKis() {
+		byte[] bytesKis = new byte[pinsAmount * Constants.MESSAGE_K_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strKi = kis[i] + "";
+			
+			while (strKi.length() < Constants.MESSAGE_K_LENGTH) {
+				strKi = "0" + strKi;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_K_LENGTH; j++) {
+				bytesKis[i * Constants.MESSAGE_K_LENGTH + j] = (byte) strKi.charAt(j);
+			}
+		}
+		
+		return bytesKis;
+	}
+	
+	private byte[] getBytesKps() {
+		byte[] bytesKps = new byte[pinsAmount * Constants.MESSAGE_K_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strKp = kps[i] + "";
+			
+			while (strKp.length() < Constants.MESSAGE_K_LENGTH) {
+				strKp = "0" + strKp;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_K_LENGTH; j++) {
+				bytesKps[i * Constants.MESSAGE_K_LENGTH + j] = (byte) strKp.charAt(j);
+			}
+		}
+		
+		return bytesKps;
+	}
+	
+	private byte[] getBytesPinTypes() {
+		byte[] bytesPinTypes = new byte[pinsAmount];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			bytesPinTypes[i] = (byte) (pinTypes[i].getValue() + "").charAt(0);
+		}
+		
+		return bytesPinTypes;
+	}
+	
+	private byte[] getBytesIds() {
+		byte[] bytesIds = new byte[pinsAmount * Constants.MESSAGE_INPUT_ID_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strId = ids[i] + "";
+			
+			while (strId.length() < Constants.MESSAGE_INPUT_ID_LENGTH) {
+				strId = "0" + strId;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_INPUT_ID_LENGTH; j++) {
+				bytesIds[i * Constants.MESSAGE_INPUT_ID_LENGTH + j] = (byte) strId.charAt(j);
+			}
+		}
+		
+		return bytesIds;
+	}
 	private void instanceParams() {
 		params = MessageUtils.convertBytesToString(this.getPayload());
 	}
