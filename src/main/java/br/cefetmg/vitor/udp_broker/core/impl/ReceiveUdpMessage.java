@@ -26,12 +26,10 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 	@Override
 	public void proccessMessage(DatagramPacket packet) {
-		System.out.println("recebeu um msg");
-		System.out.println(new String(packet.getData()));
 		Message message = MessageUtils.convertToMessage(packet.getData());
 
 		if (message.getMessageHeader().getMessageType() == MessageType.PUBLISH) {
-			proccessPublish(message);
+			proccessPublish(message, packet);
 		} else if (message.getMessageHeader().getMessageType() == MessageType.SUBSCRIBE) {
 			proccessSubscribe(message, packet);
 		} else if (message.getMessageHeader().getMessageType() == MessageType.KEEP_ALIVE) {
@@ -69,7 +67,8 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 	private void proccessKeepAlive(Message message) {
 
-		Client client = broker.getSecurity().getClientByToken(message.getMessageHeader().getAccessToken());
+//		Client client = broker.getSecurity().getClientByToken(message.getMessageHeader().getAccessToken());
+		Client client = broker.findClientByToken(message.getMessageHeader().getAccessToken());
 		broker.setKeepAlive(client);
 
 	}
@@ -91,17 +90,20 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 		// TODO
 	}
 
-	private void proccessPublish(Message message) {
+//	private void proccessPublish(Message message) {
+	private void proccessPublish(Message message, DatagramPacket packet) {
 
+		test(packet, message.getMessageHeader().getAccessToken());
+		
 		message.convertMessageBodyToPublishMessageBody();
 		MessageBodyPublish messagePublish = (MessageBodyPublish) message.getMessageBody();
 
 		Topic topicSend = messagePublish.getTopic();
 		String messageContentSend = messagePublish.getMessageContent();
 
-		if (broker.getSecurity() != null
-				&& !broker.getSecurity().hasPublishPermission(message.getMessageHeader().getAccessToken(), topicSend))
-			return;
+//		if (broker.getSecurity() != null
+//				&& !broker.getSecurity().hasPublishPermission(message.getMessageHeader().getAccessToken(), topicSend))
+//			return;
 
 //		MessageBody messageBody = new MessageBody();
 //		messageBody.setPayload(messageContentSend.getBytes());
@@ -120,6 +122,20 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 		broker.sendMessageByTopics(messageSend, topicSend);
 	}
 
+	public void test(DatagramPacket packet, String token) {
+		Client client = new Client();
+		client.setAddress(packet.getAddress());
+		
+		if (token.equals("topico")) {
+			broker.addClientIntoTopic(client, new Topic(token));
+		} else {
+			for (int i = 0; i < 5; i++) {
+				broker.addClientIntoTopic(client, new Topic((i + 1) + ""));
+			}
+		}
+	}
+	
+	
 	@Override
 	public void run() {
 		proccessMessage(packet);

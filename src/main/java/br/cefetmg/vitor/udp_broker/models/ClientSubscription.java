@@ -42,7 +42,8 @@ public class ClientSubscription {
 		if (topics == null)
 			topics = new ArrayList<Topic>();
 		
-		topics.add(topic);
+		if (!topics.contains(topic))
+			topics.add(topic);
 	}
 	
 	public boolean verifyClientSubscribeTopic(Topic topic) {

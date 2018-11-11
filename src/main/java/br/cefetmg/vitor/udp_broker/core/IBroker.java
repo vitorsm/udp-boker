@@ -28,6 +28,5 @@ public interface IBroker {
 	
 	public void sendParamMessage(Client client, Message message);
 	
-	
-	
+	public Client findClientByToken(String token);
 }

@@ -25,6 +25,8 @@ public class Server {
 		socket = new DatagramSocket(Constants.SERVER_PORT);
 		running = true;
 		buffer = new byte[Constants.MESSAGE_LENGTH];
+		
+		System.out.println("recebeu");
 	}
 
 
@@ -35,7 +37,7 @@ public class Server {
 			try {
 				DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 				socket.receive(packet);
-				
+				System.out.println("recebeu");
 				broker.receiveMessage(packet);
 			} catch (IOException e) {
 				e.printStackTrace();

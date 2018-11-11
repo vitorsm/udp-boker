@@ -1,9 +1,12 @@
 package br.cefetmg.vitor.udp_broker.core.impl;
 
 import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.cefetmg.vitor.udp_broker.Constants;
 import br.cefetmg.vitor.udp_broker.core.IBroker;
 import br.cefetmg.vitor.udp_broker.core.IJoinning;
 import br.cefetmg.vitor.udp_broker.core.ISecurity;
@@ -22,6 +25,7 @@ public class Broker implements IBroker {
 		this.security = security;
 		this.joinning = joinning;
 		this.clientsSubscription = new ArrayList<ClientSubscription>();
+		
 	}
 	
 	public void setSecurity(ISecurity security) {
@@ -73,7 +77,7 @@ public class Broker implements IBroker {
 			clientSubscription = ClientSubscription.instance(client);
 			clientsSubscription.add(clientSubscription);
 		}
-
+		
 		clientSubscription.addTopic(topic);
 	}
 
@@ -145,4 +149,16 @@ public class Broker implements IBroker {
 		return clients;
 	}
 
+	@Override
+	public Client findClientByToken(String token) {
+		for (ClientSubscription clientSubscription : clientsSubscription) {
+			if (clientSubscription.getClient().getToken() != null &&
+					clientSubscription.getClient().getToken().equals(token)) {
+				return clientSubscription.getClient();
+			}
+		}
+		
+		return null;
+	}
+	
 }

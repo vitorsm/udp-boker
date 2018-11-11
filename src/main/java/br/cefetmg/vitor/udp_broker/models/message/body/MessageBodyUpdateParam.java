@@ -10,6 +10,17 @@ import lombok.Data;
 
 @Data
 public class MessageBodyUpdateParam extends MessageBody {
+	
+	public static class Param {
+		public int id;
+		public float kp;
+		public float ki;
+		public float kd;
+		public int sampleTime;
+		public float setpoint;
+		public Condition condition;
+		public PinType pinType;
+	}
 
 	private String token;
 	private int[] ids;
@@ -24,6 +35,26 @@ public class MessageBodyUpdateParam extends MessageBody {
 	
 	public MessageBodyUpdateParam(int pinsAmount) {
 		this.pinsAmount = pinsAmount;
+		
+		ids = new int[pinsAmount];
+		pinTypes = new PinType[pinsAmount];
+		kps = new float[pinsAmount];
+		kis = new float[pinsAmount];
+		kds = new float[pinsAmount];
+		sampleTimes = new int[pinsAmount];
+		setpoints = new float[pinsAmount];
+		conditions = new Condition[pinsAmount];
+	}
+	
+	public void addItems(int pinNumber, Param param) {
+		ids[pinNumber] = param.id;
+		pinTypes[pinNumber] = param.pinType;
+		kps[pinNumber] = param.kp;
+		kis[pinNumber] = param.ki;
+		kds[pinNumber] = param.kd;
+		sampleTimes[pinNumber] = param.sampleTime;
+		setpoints[pinNumber] = param.setpoint;
+		conditions[pinNumber] = param.condition;
 	}
 	
 	private String params;

@@ -14,6 +14,7 @@ public class Client {
 	private InetAddress address;
 	private int port;
 	private long lastTimeAnswer;
+	private String token;
 	
 	public Client() {
 		port = Constants.CLIENT_PORT;
@@ -25,5 +26,16 @@ public class Client {
 	
 	public void setAddress(String address) throws InvalidAddressException, UnknownHostException {
 		this.address = InetAddress.getByName(address);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Client) {
+			Client c = (Client) obj;
+			
+			return c.address != null && this.address != null && c.address.toString().equals(this.address.toString());
+		}
+		
+		return false;
 	}
 }
