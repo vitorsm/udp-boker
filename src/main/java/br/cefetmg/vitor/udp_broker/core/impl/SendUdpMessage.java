@@ -3,6 +3,7 @@ package br.cefetmg.vitor.udp_broker.core.impl;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.List;
 
@@ -56,7 +57,11 @@ public class SendUdpMessage implements Runnable {
 		DatagramSocket socket = new DatagramSocket();
 		DatagramPacket packet = new DatagramPacket(messageBytes, messageBytes.length, client.getAddress(), client.getPort());
 		
+		String strMessage = new String(messageBytes, Charset.forName("UTF-8"));
+		
+		System.out.println(strMessage);
 		System.out.println(client.getAddress().toString());
+		
 		socket.send(packet);
 	}
 }

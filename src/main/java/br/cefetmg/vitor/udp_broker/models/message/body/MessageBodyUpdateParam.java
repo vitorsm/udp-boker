@@ -20,6 +20,7 @@ public class MessageBodyUpdateParam extends MessageBody {
 		public float setpoint;
 		public Condition condition;
 		public PinType pinType;
+		public int inputId;
 	}
 
 	private String token;
@@ -30,6 +31,7 @@ public class MessageBodyUpdateParam extends MessageBody {
 	private float[] kds;
 	private int[] sampleTimes;
 	private float[] setpoints;
+	private int [] inputsId;
 	private Condition[] conditions;
 	private int pinsAmount;
 	
@@ -43,6 +45,7 @@ public class MessageBodyUpdateParam extends MessageBody {
 		kds = new float[pinsAmount];
 		sampleTimes = new int[pinsAmount];
 		setpoints = new float[pinsAmount];
+		inputsId = new int[pinsAmount];
 		conditions = new Condition[pinsAmount];
 	}
 	
@@ -55,6 +58,7 @@ public class MessageBodyUpdateParam extends MessageBody {
 		sampleTimes[pinNumber] = param.sampleTime;
 		setpoints[pinNumber] = param.setpoint;
 		conditions[pinNumber] = param.condition;
+		inputsId[pinNumber] = param.inputId;
 	}
 	
 	private String params;
@@ -76,6 +80,7 @@ public class MessageBodyUpdateParam extends MessageBody {
 		bytes = VectorUtils.concactByteVector(bytes, getBytesKds());
 		bytes = VectorUtils.concactByteVector(bytes, getBytesSampleTimes());
 		bytes = VectorUtils.concactByteVector(bytes, getBytesSetpoints());
+		bytes = VectorUtils.concactByteVector(bytes, getBytesInputsId());
 		bytes = concatConditions(bytes);
 		
 		return bytes;
@@ -106,6 +111,24 @@ public class MessageBodyUpdateParam extends MessageBody {
 			
 			for (int j = 0; j < Constants.MESSAGE_VALUE_LENGTH; j++) {
 				bytesSetpoints[i * Constants.MESSAGE_VALUE_LENGTH + j] = (byte) strSetpoint.charAt(j);
+			}
+		}
+		
+		return bytesSetpoints;
+	}
+	
+	private byte[] getBytesInputsId() {
+		byte[] bytesSetpoints = new byte[pinsAmount * Constants.MESSAGE_INPUT_ID_LENGTH];
+		
+		for (int i = 0; i < pinsAmount; i++) {
+			String strInputId = inputsId[i] + "";
+			
+			while (strInputId.length() < Constants.MESSAGE_INPUT_ID_LENGTH) {
+				strInputId = "0" + strInputId;
+			}
+			
+			for (int j = 0; j < Constants.MESSAGE_INPUT_ID_LENGTH; j++) {
+				bytesSetpoints[i * Constants.MESSAGE_INPUT_ID_LENGTH + j] = (byte) strInputId.charAt(j);
 			}
 		}
 		
@@ -188,7 +211,11 @@ public class MessageBodyUpdateParam extends MessageBody {
 		byte[] bytesPinTypes = new byte[pinsAmount];
 		
 		for (int i = 0; i < pinsAmount; i++) {
-			bytesPinTypes[i] = (byte) (pinTypes[i].getValue() + "").charAt(0);
+			if (pinTypes[i] != null) {
+				bytesPinTypes[i] = (byte) (pinTypes[i].getValue() + "").charAt(0);
+			} else {
+				bytesPinTypes[i] = (byte) '0';
+			}
 		}
 		
 		return bytesPinTypes;

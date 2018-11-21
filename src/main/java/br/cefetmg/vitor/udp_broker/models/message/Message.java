@@ -33,7 +33,7 @@ public class Message {
 
 		this.messageBody = newMessageBody;
 	}
-
+	
 	public void convertMessageBodyToSubscribeMessageBody() {
 
 		if (messageBody == null)

@@ -1,6 +1,7 @@
 package br.cefetmg.vitor.udp_broker.core.impl;
 
 import java.net.DatagramPacket;
+import java.nio.charset.Charset;
 
 import br.cefetmg.vitor.udp_broker.core.IBroker;
 import br.cefetmg.vitor.udp_broker.core.IReceiveMessage;
@@ -26,7 +27,12 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 	@Override
 	public void proccessMessage(DatagramPacket packet) {
-		Message message = MessageUtils.convertToMessage(packet.getData());
+		byte data[] = packet.getData();
+		
+		String strMessage = new String(data, Charset.forName("UTF-8"));
+		System.out.println(strMessage);
+		
+		Message message = MessageUtils.convertToMessage(data);
 
 		if (message.getMessageHeader().getMessageType() == MessageType.PUBLISH) {
 			proccessPublish(message, packet);
@@ -93,7 +99,7 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 //	private void proccessPublish(Message message) {
 	private void proccessPublish(Message message, DatagramPacket packet) {
 
-		test(packet, message.getMessageHeader().getAccessToken());
+		//test(packet, message.getMessageHeader().getAccessToken());
 		
 		message.convertMessageBodyToPublishMessageBody();
 		MessageBodyPublish messagePublish = (MessageBodyPublish) message.getMessageBody();
