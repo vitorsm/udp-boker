@@ -7,7 +7,7 @@ import br.cefetmg.vitor.udp_broker.utils.VectorUtils;
 import lombok.Data;
 
 @Data
-public class MessageBodyPublish extends MessageBody {
+public class MessageBodyData extends MessageBody {
 
 	private Topic topic;
 	private String messageContent;
@@ -17,21 +17,37 @@ public class MessageBodyPublish extends MessageBody {
 		if (topic == null) instanceTopic();
 		if (messageContent == null) instanceMessage();
 		
-		byte[] bytesTopic = topic.getValue().getBytes();
-		byte[] bytesContent = messageContent.getBytes();
+		String strTopic = topic.getValue();
 		
-		byte[] bytes = new byte[Constants.MESSAGE_BODY_LENGTH];
-		for (int i = 0; i < Constants.MESSAGE_TOPIC_LENGTH && i < bytesTopic.length; i++) {
+		while (strTopic.length() < Constants.MESSAGE_INPUT_ID_LENGTH) {
+			strTopic = "0" + strTopic;
+		}
+		
+		String strValue = messageContent;
+		if (strValue.length() > Constants.MESSAGE_VALUE_LENGTH) {
+			strValue = strValue.substring(0, Constants.MESSAGE_VALUE_LENGTH);
+		} else {
+			while (strValue.length() < Constants.MESSAGE_VALUE_LENGTH) {
+				strValue = "0" + strValue;
+			}
+		}
+		
+		byte[] bytesTopic = strTopic.getBytes();
+		byte[] bytesContent = strValue.getBytes();
+		
+		byte[] bytes = new byte[bytesTopic.length + bytesContent.length];
+		for (int i = 0; i < Constants.MESSAGE_INPUT_ID_LENGTH && i < bytesTopic.length; i++) {
 			bytes[i] = bytesTopic[i];
 		}
 		
-		for (int i = Constants.MESSAGE_TOPIC_LENGTH; 
-				i < Constants.MESSAGE_BODY_LENGTH && i - Constants.MESSAGE_TOPIC_LENGTH < bytesContent.length;
+		for (int i = Constants.MESSAGE_INPUT_ID_LENGTH; 
+				i < bytes.length;
 				i++) {
-			bytes[i] = bytesContent[i - Constants.MESSAGE_TOPIC_LENGTH];
+			bytes[i] = bytesContent[i - Constants.MESSAGE_INPUT_ID_LENGTH];
 		}
 		
 		this.setPayload(bytes);
+		this.messageBodyLength = bytes.length;
 		
 		return super.getBytes();
 	}
@@ -67,5 +83,4 @@ public class MessageBodyPublish extends MessageBody {
 		
 		System.out.println("conteudo recebido: " + messageContent);
 	}
-	
 }

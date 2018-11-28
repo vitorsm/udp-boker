@@ -11,6 +11,7 @@ import br.cefetmg.vitor.udp_broker.models.message.Message;
 import br.cefetmg.vitor.udp_broker.models.message.MessageHeader;
 import br.cefetmg.vitor.udp_broker.models.message.MessageType;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBody;
+import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodyData;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodyHello;
 import br.cefetmg.vitor.udp_broker.models.message.body.MessageBodyPublish;
 import br.cefetmg.vitor.udp_broker.utils.MessageUtils;
@@ -103,7 +104,11 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 		
 		message.convertMessageBodyToPublishMessageBody();
 		MessageBodyPublish messagePublish = (MessageBodyPublish) message.getMessageBody();
-
+		
+		MessageBodyData messageData = new MessageBodyData();
+		messageData.setTopic(messagePublish.getTopic());
+		messageData.setMessageContent(messagePublish.getMessageContent());
+		
 		Topic topicSend = messagePublish.getTopic();
 		String messageContentSend = messagePublish.getMessageContent();
 
@@ -116,6 +121,7 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 		MessageHeader messageHeader = new MessageHeader();
 		messageHeader.setMessageType(MessageType.DATA);
+		messageHeader.setAllLength(false);
 		if (broker.getSecurity() != null)
 			messageHeader.setAccessToken(broker.getSecurity().getAccessToken());
 		else
@@ -123,7 +129,8 @@ public class ReceiveUdpMessage implements IReceiveMessage {
 
 		Message messageSend = new Message();
 		messageSend.setMessageHeader(messageHeader);
-		messageSend.setMessageBody(messagePublish);
+//		messageSend.setMessageBody(messagePublish);
+		messageSend.setMessageBody(messageData);
 
 		broker.sendMessageByTopics(messageSend, topicSend);
 	}
